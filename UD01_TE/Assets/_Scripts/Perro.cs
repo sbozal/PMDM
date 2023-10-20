@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Perro : MonoBehaviour 
 {
-
-    public Transform target;
-    public int speed;
+    // Atributos
+    public Transform target;        // Objeto sobre el que vamos a girar. En este caso la granjera
+    public int speed;               // Velocidad de desplazamiento
+    public int radio;               // Radio de la circunferencia
 
     // Start is called before the first frame update
     void Start()
@@ -15,16 +16,24 @@ public class Perro : MonoBehaviour
         if(target == null)
         {
             target = this.gameObject.transform;
-            Debug.log("Target nulo.")
+
         }
-        Debug.log("Iniciado " + this.name);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         // Movimiento
-        transform.RotateAround(target.transform.position, target.transform.up, speed * Time.deltaTime);
-        Debug.log("Actualizado " + this.name);
+        // Cálculo de la nueva posición
+        Vector3 posicion = new Vector3
+            (
+                target.position.x + Mathf.Cos(Time.time * speed) * radio,
+                transform.position.y,
+                target.position.z + Mathf.Sin(Time.time * speed) * radio
+            );
+
+        // Poner objeto en la posición calculada
+        transform.position = posicion;
     }
 }
